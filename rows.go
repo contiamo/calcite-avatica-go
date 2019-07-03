@@ -23,8 +23,8 @@ import (
 	"io"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/v4/internal"
-	"github.com/apache/calcite-avatica-go/v4/message"
+	"github.com/contiamo/calcite-avatica-go/v4/internal"
+	"github.com/contiamo/calcite-avatica-go/v4/message"
 )
 
 type resultSet struct {

@@ -23,7 +23,7 @@ Quickstart
 Import the database/sql package along with the avatica driver.
 
 	import "database/sql"
-	import _ "github.com/apache/calcite-avatica-go/v4"
+	import _ "github.com/contiamo/calcite-avatica-go/v4"
 
 	db, err := sql.Open("avatica", "http://phoenix-query-server:8765")
 
@@ -37,10 +37,10 @@ import (
 	"database/sql/driver"
 	"fmt"
 
-	"github.com/apache/calcite-avatica-go/v4/generic"
-	"github.com/apache/calcite-avatica-go/v4/hsqldb"
-	"github.com/apache/calcite-avatica-go/v4/message"
-	"github.com/apache/calcite-avatica-go/v4/phoenix"
+	"github.com/contiamo/calcite-avatica-go/v4/generic"
+	"github.com/contiamo/calcite-avatica-go/v4/hsqldb"
+	"github.com/contiamo/calcite-avatica-go/v4/message"
+	"github.com/contiamo/calcite-avatica-go/v4/phoenix"
 	"github.com/hashicorp/go-uuid"
 )
 
@@ -48,7 +48,7 @@ import (
 type Driver struct{}
 
 // Open a Connection to the server.
-// See https://github.com/apache/calcite-avatica-go#dsn for more information
+// See https://github.com/contiamo/calcite-avatica-go#dsn for more information
 // on how the DSN is formatted.
 func (a *Driver) Open(dsn string) (driver.Conn, error) {
 
@@ -66,6 +66,7 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 		keytab:              config.keytab,
 		krb5Conf:            config.krb5Conf,
 		krb5CredentialCache: config.krb5CredentialCache,
+		bearerToken:         config.token,
 	})
 
 	if err != nil {
@@ -90,6 +91,14 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 		info["password"] = config.password
 	}
 
+	if config.schemaName != "" {
+		info["schemaName"] = config.schemaName
+	}
+
+	if config.catalogId != "" {
+		info["catalogId"] = config.catalogId
+	}
+
 	conn := &conn{
 		connectionId: connectionId,
 		httpClient:   httpClient,
@@ -109,6 +118,7 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 	_, err = httpClient.post(context.Background(), req)
 
 	if err != nil {
+		fmt.Println(err)
 		return nil, conn.avaticaErrorToResponseErrorOrError(err)
 	}
 

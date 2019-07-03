@@ -38,13 +38,13 @@ hood.
 If you are using Go 1.10 and below, install using [dep](https://github.com/golang/dep):
 
 {% highlight shell %}
-$ dep ensure -add github.com/apache/calcite-avatica-go
+$ dep ensure -add github.com/contiamo/calcite-avatica-go
 {% endhighlight %}
 
 If you are using Go 1.11 and above, install using Go modules:
 
 {% highlight shell %}
-$ go get github.com/apache/calcite-avatica-go
+$ go get github.com/contiamo/calcite-avatica-go
 {% endhighlight %}
 
 
@@ -55,7 +55,7 @@ The Avatica Go driver implements Go's `database/sql/driver` interface, so, impor
 
 {% highlight go %}
 import "database/sql"
-import _ "github.com/apache/calcite-avatica-go/v4"
+import _ "github.com/contiamo/calcite-avatica-go/v4"
 
 db, err := sql.Open("avatica", "http://localhost:8765")
 {% endhighlight %}

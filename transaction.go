@@ -20,7 +20,7 @@ package avatica
 import (
 	"context"
 
-	"github.com/apache/calcite-avatica-go/v4/message"
+	"github.com/contiamo/calcite-avatica-go/v4/message"
 )
 
 type tx struct {

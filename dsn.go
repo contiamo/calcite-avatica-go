@@ -46,6 +46,11 @@ type Config struct {
 	user     string
 	password string
 
+	// token from dsn which will be set as bearer token during requests
+	token      string
+	catalogId  string
+	schemaName string
+
 	authentication      authentication
 	avaticaUser         string
 	avaticaPassword     string
@@ -89,6 +94,10 @@ func ParseDSN(dsn string) (*Config, error) {
 	}
 
 	queries := parsed.Query()
+
+	conf.token = queries.Get("token")
+	conf.catalogId = queries.Get("catalogId")
+	conf.schemaName = queries.Get("schemaName")
 
 	if v := queries.Get("maxRowsTotal"); v != "" {
 

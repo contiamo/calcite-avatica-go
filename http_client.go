@@ -29,9 +29,9 @@ import (
 	"runtime"
 	"time"
 
-	avaticaMessage "github.com/apache/calcite-avatica-go/v4/message"
+	avaticaMessage "github.com/contiamo/calcite-avatica-go/v4/message"
 	"github.com/golang/protobuf/proto"
-	"github.com/xinsnake/go-http-digest-auth-client"
+	digest_auth_client "github.com/xinsnake/go-http-digest-auth-client"
 	"gopkg.in/jcmturner/gokrb5.v7/client"
 	"gopkg.in/jcmturner/gokrb5.v7/config"
 	"gopkg.in/jcmturner/gokrb5.v7/credentials"
@@ -53,6 +53,8 @@ type httpClientAuthConfig struct {
 	keytab              string
 	krb5Conf            string
 	krb5CredentialCache string
+
+	bearerToken string
 }
 
 // httpClient wraps the default http.Client to communicate with the Avatica server.
@@ -77,7 +79,6 @@ func NewHTTPClient(host string, authenticationConf httpClientAuthConfig) (*httpC
 	c := &httpClient{
 		host:       host,
 		authConfig: authenticationConf,
-
 		httpClient: &http.Client{
 			Transport: &http.Transport{
 				Proxy: http.ProxyFromEnvironment,
@@ -172,13 +173,15 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 	}
 
 	req.Header.Set("Content-Type", "application/x-google-protobuf")
+	if c.authConfig.bearerToken != "" {
+		req.Header.Set("Authorization", "Bearer "+c.authConfig.bearerToken)
+	}
 
 	if c.authConfig.authenticationType == basic {
 		req.SetBasicAuth(c.authConfig.username, c.authConfig.password)
 	} else if c.authConfig.authenticationType == spnego {
 		err := gokrbSPNEGO.SetSPNEGOHeader(c.kerberosClient, req, "")
-
-		if err != nil{
+		if err != nil {
 			return nil, err
 		}
 	}
@@ -204,6 +207,7 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 	err = proto.Unmarshal(response, result)
 
 	if err != nil {
+		fmt.Printf("%v", string(response))
 		return nil, err
 	}
 

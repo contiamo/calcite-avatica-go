@@ -24,7 +24,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/v4/message"
+	"github.com/contiamo/calcite-avatica-go/v4/message"
 )
 
 type stmt struct {
