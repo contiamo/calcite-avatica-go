@@ -111,7 +111,10 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 }
 
 func (a Adapter) ErrorResponseToResponseError(message *message.ErrorResponse) errors.ResponseError {
-
+	serverAddr := ""
+	if md := message.GetMetadata(); md != nil {
+		serverAddr = md.GetServerAddress()
+	}
 	return errors.ResponseError{
 		Exceptions:   message.Exceptions,
 		ErrorMessage: message.ErrorMessage,
@@ -119,7 +122,7 @@ func (a Adapter) ErrorResponseToResponseError(message *message.ErrorResponse) er
 		ErrorCode:    errors.ErrorCode(message.ErrorCode),
 		SqlState:     errors.SQLState(message.SqlState),
 		Metadata: &errors.RPCMetadata{
-			ServerAddress: message.GetMetadata().ServerAddress,
+			ServerAddress: serverAddr,
 		},
 	}
 }
