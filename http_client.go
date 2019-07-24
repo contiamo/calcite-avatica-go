@@ -174,7 +174,7 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 
 	req.Header.Set("Content-Type", "application/x-google-protobuf")
 	if c.authConfig.bearerToken != "" {
-		req.Header.Set("Authorization", "Bearer "+c.authConfig.bearerToken)
+		req.Header.Set("X-Request-Token", c.authConfig.bearerToken)
 	}
 
 	if c.authConfig.authenticationType == basic {
