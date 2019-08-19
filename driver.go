@@ -23,7 +23,7 @@ Quickstart
 Import the database/sql package along with the avatica driver.
 
 	import "database/sql"
-	import _ "github.com/apache/calcite-avatica-go/v4"
+	import _ "github.com/contiamo/calcite-avatica-go/v4"
 
 	db, err := sql.Open("avatica", "http://phoenix-query-server:8765")
 
@@ -38,10 +38,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/apache/calcite-avatica-go/v4/generic"
-	"github.com/apache/calcite-avatica-go/v4/hsqldb"
-	"github.com/apache/calcite-avatica-go/v4/message"
-	"github.com/apache/calcite-avatica-go/v4/phoenix"
+	"github.com/contiamo/calcite-avatica-go/v4/generic"
+	"github.com/contiamo/calcite-avatica-go/v4/hsqldb"
+	"github.com/contiamo/calcite-avatica-go/v4/message"
+	"github.com/contiamo/calcite-avatica-go/v4/phoenix"
 	"github.com/hashicorp/go-uuid"
 )
 
@@ -140,7 +140,7 @@ func (c *Connector) Driver() driver.Driver {
 }
 
 // Open a Connection to the server.
-// See https://github.com/apache/calcite-avatica-go#dsn for more information
+// See https://github.com/contiamo/calcite-avatica-go#dsn for more information
 // on how the DSN is formatted.
 func (a *Driver) Open(dsn string) (driver.Conn, error) {
 	return NewConnector(dsn).Connect(context.TODO())

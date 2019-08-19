@@ -29,7 +29,7 @@ import (
 	"runtime"
 	"time"
 
-	avaticaMessage "github.com/apache/calcite-avatica-go/v4/message"
+	avaticaMessage "github.com/contiamo/calcite-avatica-go/v4/message"
 	"github.com/golang/protobuf/proto"
 )
 

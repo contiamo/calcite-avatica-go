@@ -18,14 +18,13 @@
 package generic
 
 import (
-	"fmt"
 	"math"
 	"reflect"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/v4/errors"
-	"github.com/apache/calcite-avatica-go/v4/internal"
-	"github.com/apache/calcite-avatica-go/v4/message"
+	"github.com/contiamo/calcite-avatica-go/v4/errors"
+	"github.com/contiamo/calcite-avatica-go/v4/internal"
+	"github.com/contiamo/calcite-avatica-go/v4/message"
 )
 
 type Adapter struct {
@@ -86,9 +85,6 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 
 	case "BINARY", "VARBINARY", "BINARY VARYING":
 		column.ScanType = reflect.TypeOf([]byte{})
-
-	default:
-		panic(fmt.Sprintf("scantype for %s is not implemented", col.Type.Name))
 	}
 
 	// Handle rep type special cases for decimals, floats, date, time and timestamp
