@@ -43,14 +43,6 @@ type Config struct {
 	schema               string
 	transactionIsolation uint32
 
-	user     string
-	password string
-
-	// token from dsn which will be set as bearer token during requests
-	token      string
-	catalogId  string
-	schemaName string
-
 	authentication      authentication
 	avaticaUser         string
 	avaticaPassword     string
@@ -81,23 +73,7 @@ func ParseDSN(dsn string) (*Config, error) {
 		return nil, fmt.Errorf("Unable to parse DSN: %s", err)
 	}
 
-	userInfo := parsed.User
-
-	if userInfo != nil {
-		if userInfo.Username() != "" {
-			conf.user = userInfo.Username()
-		}
-
-		if pass, ok := userInfo.Password(); ok {
-			conf.password = pass
-		}
-	}
-
 	queries := parsed.Query()
-
-	conf.token = queries.Get("token")
-	conf.catalogId = queries.Get("catalogId")
-	conf.schemaName = queries.Get("schemaName")
 
 	if v := queries.Get("maxRowsTotal"); v != "" {
 

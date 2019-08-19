@@ -19,7 +19,7 @@ limitations under the License.
 
 # Apache Avatica/Phoenix SQL Driver
 
-[![GoDoc](https://godoc.org/github.com/contiamo/calcite-avatica-go?status.png)](https://godoc.org/github.com/contiamo/calcite-avatica-go)
+[![GoDoc](https://godoc.org/github.com/apache/calcite-avatica-go?status.png)](https://godoc.org/github.com/apache/calcite-avatica-go)
 [![Build Status](https://travis-ci.org/apache/calcite-avatica-go.svg?branch=master)](https://travis-ci.org/apache/calcite-avatica-go)
 
 Apache Calcite's Avatica Go is a Go [database/sql](https://golang.org/pkg/database/sql/) driver for the Avatica server.
@@ -30,13 +30,13 @@ Avatica is a sub-project of [Apache Calcite](https://calcite.apache.org).
 If you are using Go 1.10 and below, install using [dep](https://github.com/golang/dep):
 
 ```
-$ dep ensure -add github.com/contiamo/calcite-avatica-go
+$ dep ensure -add github.com/apache/calcite-avatica-go
 ```
 
 If you are using Go 1.11 and above, install using Go modules:
 
 ```
-$ go get github.com/contiamo/calcite-avatica-go
+$ go get github.com/apache/calcite-avatica-go
 ```
 
 The Phoenix/Avatica driver implements Go's `database/sql/driver` interface, so, import the
@@ -44,7 +44,7 @@ The Phoenix/Avatica driver implements Go's `database/sql/driver` interface, so, 
 
 ```
 import "database/sql"
-import _ "github.com/contiamo/calcite-avatica-go/v4"
+import _ "github.com/apache/calcite-avatica-go/v4"
 
 db, err := sql.Open("avatica", "http://localhost:8765")
 ```

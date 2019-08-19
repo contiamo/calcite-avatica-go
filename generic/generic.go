@@ -23,9 +23,9 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/contiamo/calcite-avatica-go/v4/errors"
-	"github.com/contiamo/calcite-avatica-go/v4/internal"
-	"github.com/contiamo/calcite-avatica-go/v4/message"
+	"github.com/apache/calcite-avatica-go/v4/errors"
+	"github.com/apache/calcite-avatica-go/v4/internal"
+	"github.com/apache/calcite-avatica-go/v4/message"
 )
 
 type Adapter struct {
@@ -111,10 +111,7 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 }
 
 func (a Adapter) ErrorResponseToResponseError(message *message.ErrorResponse) errors.ResponseError {
-	serverAddr := ""
-	if md := message.GetMetadata(); md != nil {
-		serverAddr = md.GetServerAddress()
-	}
+
 	return errors.ResponseError{
 		Exceptions:   message.Exceptions,
 		ErrorMessage: message.ErrorMessage,
@@ -122,7 +119,7 @@ func (a Adapter) ErrorResponseToResponseError(message *message.ErrorResponse) er
 		ErrorCode:    errors.ErrorCode(message.ErrorCode),
 		SqlState:     errors.SQLState(message.SqlState),
 		Metadata: &errors.RPCMetadata{
-			ServerAddress: serverAddr,
+			ServerAddress: message.GetMetadata().ServerAddress,
 		},
 	}
 }
